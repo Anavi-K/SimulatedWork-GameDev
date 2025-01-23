@@ -9,9 +9,18 @@
 <body>
 
     <h3>Score: <span id="result"></span></h3>
+    <h3>Best Time: <span id="best-time"></span> seconds</h3>
+
+    <label for="difficulty">Choose Difficulty: </label>
+    <select id="difficulty">
+        <option value="easy">Easy</option>
+        <option value="medium">Medium</option>
+        <option value="hard">Hard</option>
+    </select>
+
+    <h4>Time Elapsed: <span id="timer">0</span> seconds</h4>
 
     <div id="grid"></div>
-    
 
     <script src="MemoryGame.js"></script>
 </body>
