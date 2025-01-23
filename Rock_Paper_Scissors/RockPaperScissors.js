@@ -1,65 +1,75 @@
-const computerChoiceDisplay = document.getElementById('computer-choice')
-const userChoiceDisplay = document.getElementById('user-choice')
-const resultDisplay = document.getElementById('result')
-const possibleChoices = document.querySelectorAll('button')
+// Original DOM Elements
+const computerChoiceDisplay = document.getElementById('computer-choice');
+const userChoiceDisplay = document.getElementById('user-choice');
+const resultDisplay = document.getElementById('result');
+const possibleChoices = document.querySelectorAll('button');
 
-let userChoice
-let computerChoice
-let result
+// New: Score Tracking Variables
+let wins = 0;
+let losses = 0;
+let draws = 0;
 
-possibleChoices.forEach(possibleChoice => possibleChoice.addEventListener('click', (e) => {
-    userChoice = e.target.id
-    userChoiceDisplay.innerHTML = userChoice
-    generateComputerChoice()
-    getResult()
-}))
+// New: Sound Effects with Correct File Extensions
+const winSound = new Audio('audios/win.wav');
+const loseSound = new Audio('audios/loss.mp3');
+const drawSound = new Audio('audios/draw.wav');
 
+// Existing: Variables for User and Computer Choices
+let userChoice;
+let computerChoice;
+let result;
+
+// Original: Handle Button Clicks for User Choice
+possibleChoices.forEach((possibleChoice) =>
+    possibleChoice.addEventListener('click', (e) => {
+        userChoice = e.target.id;
+        userChoiceDisplay.innerHTML = userChoice;
+
+        // Animation handled by CSS :active
+        generateComputerChoice();
+        getResult();
+    })
+);
+
+// Fixed: Generate Random Computer Choice
 function generateComputerChoice() {
-    const randomNumber = Math.floor(Math.random() * possibleChoices.length)
-    
-    if (randomNumber === 1){
-        computerChoice = 'rock'
+    const randomNumber = Math.floor(Math.random() * 3);
+
+    if (randomNumber === 0) {
+        computerChoice = 'rock';
+    } else if (randomNumber === 1) {
+        computerChoice = 'paper';
+    } else if (randomNumber === 2) {
+        computerChoice = 'scissors';
     }
 
-    if (randomNumber === 2){
-        computerChoice = 'scissors'
-    }
-
-    if (randomNumber === 3){
-        computerChoice = 'paper'
-    }
-
-    computerChoiceDisplay.innerHTML = computerChoice
+    computerChoiceDisplay.innerHTML = computerChoice;
 }
 
-function getResult(){
-    if (computerChoice === userChoice){
-        result = 'its a draw!'
+// Enhanced: Get Result and Update Score
+function getResult() {
+    if (computerChoice === userChoice) {
+        result = 'its a draw!';
+        draws++;
+        drawSound.play(); // Play draw sound
+    } else if (
+        (computerChoice === 'rock' && userChoice === 'paper') ||
+        (computerChoice === 'paper' && userChoice === 'scissors') ||
+        (computerChoice === 'scissors' && userChoice === 'rock')
+    ) {
+        result = 'you win!';
+        wins++;
+        winSound.play(); // Play win sound
+    } else {
+        result = 'you lost!';
+        losses++;
+        loseSound.play(); // Play lose sound
     }
 
-    if (computerChoice === 'rock' && userChoice === "paper"){
-        result = 'you win!'
-    }
+    resultDisplay.innerHTML = result;
 
-    if (computerChoice === 'rock' && userChoice === "scissors"){
-        result = 'you lost!'
-    }
-
-    if (computerChoice === 'paper' && userChoice === "scissors"){
-        result = 'you win!'
-    }
-
-    if (computerChoice === 'paper' && userChoice === "rock"){
-        result = 'you lost!'
-    }
-
-    if (computerChoice === 'scissors' && userChoice === "rock"){
-        result = 'you win!'
-    }
-
-    if (computerChoice === 'scissors' && userChoice === "paper"){
-        result = 'you lost!'
-    }
-
-    resultDisplay.innerHTML = result
+    // Update Scores in the DOM
+    document.getElementById('wins').innerText = wins;
+    document.getElementById('losses').innerText = losses;
+    document.getElementById('draws').innerText = draws;
 }

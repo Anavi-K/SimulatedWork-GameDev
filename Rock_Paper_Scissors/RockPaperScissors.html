@@ -4,19 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rock Paper Scissors</title>
+    <style>
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 5px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        button:active {
+            transform: scale(1.1);
+        }
+    </style>
 </head>
 <body>
-    
     <h2>Computer Choice: <span id="computer-choice"></span></h2>
     <h2>Your Choice: <span id="user-choice"></span></h2>
     <h2>Result: <span id="result"></span></h2>
+    <h2>Score: Wins: <span id="wins">0</span>, Losses: <span id="losses">0</span>, Draws: <span id="draws">0</span></h2>
 
     <button id="rock">rock</button>
     <button id="paper">paper</button>
     <button id="scissors">scissors</button>
 
-    
-    <script src = "RockPaperScissor.js"></script>
-    
+    <script src="RockPaperScissors.js"></script>
 </body>
 </html>
