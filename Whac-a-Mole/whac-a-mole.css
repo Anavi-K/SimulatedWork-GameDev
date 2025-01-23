@@ -1,17 +1,39 @@
-.grid{
+.grid {
     width: 606px;
     height: 606px;
     display: flex;
     flex-wrap: wrap;
 }
 
-.square{
+.square {
     height: 200px;
     width: 200px;
     border: solid black 1px;
 }
 
-.mole{
+.mole {
     background-image: url('mole.jpg');
     background-size: cover;
+}
+
+.bonus {
+    background-image: url('bonus-mole.png');
+    background-size: cover;
+}
+
+#start-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #292929;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#start-button:disabled {
+    background-color: grey;
+    cursor: not-allowed;
 }
