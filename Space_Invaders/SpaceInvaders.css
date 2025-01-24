@@ -1,29 +1,60 @@
-.grid{
-	width: 300px;
-	height: 300px;
-	border: solid black 1px;
-	display: flex;
-	flex-wrap: wrap;
+body {
+    background-image: url('space.jpeg');
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
 }
 
-.grid div{
-	width: 20px;
-	height: 20px;
+h1.results {
+    font-size: 2rem;
+    margin: 20px;
 }
 
-.invader{
-	background-color: purple;
-	border-radius: 10px;
+.grid {
+    width: 300px;
+    height: 300px;
+    border: solid black 1px;
+	border-radius: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    background: #111;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.7);
 }
 
-.shooter{
-	background-color: green;
+.grid div {
+    width: 20px;
+    height: 20px;
 }
 
-.laser{
-	background-color: orange;
+.invader {
+    background-color: #008624;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
 }
 
-.boom{
-	background-color: red;
+.shooter {
+    background-color: rgb(22, 33, 236);
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+}
+
+.laser {
+    background-color: orange;
+}
+
+.boom {
+    background-color: red;
+    animation: boomEffect 0.3s ease-out;
+}
+
+@keyframes boomEffect {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(2); opacity: 0; }
+}
+
+@media (max-width: 600px) {
+    .grid {
+        width: 250px;
+        height: 250px;
+    }
 }
