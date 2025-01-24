@@ -27,3 +27,12 @@
     border-radius: 10px;
     background-color: red;
 }
+  
+#startButton {
+    position: absolute;
+    top: 50px;
+    left: 250px;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+}
