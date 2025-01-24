@@ -1,16 +1,16 @@
-body {
+body{
     background-image: url('space.jpeg');
     color: white;
     font-family: Arial, sans-serif;
     text-align: center;
 }
 
-h1.results {
+h1.results{
     font-size: 2rem;
     margin: 20px;
 }
 
-.grid {
+.grid{
     width: 300px;
     height: 300px;
     border: solid black 1px;
@@ -22,37 +22,37 @@ h1.results {
     box-shadow: 0 0 30px rgba(255, 255, 255, 0.7);
 }
 
-.grid div {
+.grid div{
     width: 20px;
     height: 20px;
 }
 
-.invader {
+.invader{
     background-color: #008624;
     border-radius: 10px;
     box-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
 }
 
-.shooter {
+.shooter{
     background-color: rgb(22, 33, 236);
     box-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
 }
 
-.laser {
+.laser{
     background-color: orange;
 }
 
-.boom {
+.boom{
     background-color: red;
     animation: boomEffect 0.3s ease-out;
 }
 
-@keyframes boomEffect {
+@keyframes boomEffect{
     0% { transform: scale(1); opacity: 1; }
     100% { transform: scale(2); opacity: 0; }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 600px){
     .grid {
         width: 250px;
         height: 250px;

@@ -1,74 +1,72 @@
-/* General Reset */
-* {
+*{
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-  }
+}
   
-  body {
+body{
     font-family: Arial, sans-serif;
     text-align: center;
     margin: 50px;
-  }
+}
   
-  h1 {
+h1{
     font-size: 36px;
-  }
+}
   
-  h3 {
+h3{
     margin: 10px;
-  }
+}
   
-  #timer {
+#timer{
     margin-top: 10px;
     font-size: 18px;
-  }
+}
   
-  .game-board {
+.game-board{
     margin: 20px auto;
     width: 420px; /* 7 columns x 60px */
-  }
+}
   
-  .grid {
+.grid{
     display: grid;
     grid-template-columns: repeat(7, 60px); /* 7 columns */
     grid-template-rows: repeat(6, 60px); /* 6 rows */
     gap: 5px;
-  }
+}
   
-  .slot {
+.slot{
     width: 60px;
     height: 60px;
     border-radius: 50%;
     background-color: #f0f0f0;
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.3s ease;
-  }
+}
   
-  .slot.player-one {
+.slot.player-one{
     background-color: red;
-  }
+}
   
-  .slot.player-two {
+.slot.player-two{
     background-color: blue;
-  }
+}
   
-  .slot.taken {
+.slot.taken{
     pointer-events: none;
-  }
+}
   
-  .slot.falling {
+.slot.falling{
     animation: fall 0.5s ease-out;
-  }
+}
   
-  @keyframes fall {
+@keyframes fall{
     from {
       transform: translateY(-100px);
       opacity: 0;
-    }
-    to {
+  }
+to{
       transform: translateY(0);
       opacity: 1;
-    }
   }
-  
+}

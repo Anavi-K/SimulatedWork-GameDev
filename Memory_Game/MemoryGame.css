@@ -1,4 +1,4 @@
-#grid {
+#grid{
     display: flex;
     flex-wrap: wrap;
     width: 400px;
@@ -6,7 +6,7 @@
     margin: 20px auto;
 }
 
-img {
+img{
     width: 80px;
     height: 80px;
     margin: 5px;
@@ -14,14 +14,14 @@ img {
     transform-style: preserve-3d;
 }
 
-img.flipped {
+img.flipped{
     transform: rotateY(180deg);
 }
 
-img:not(.flipped) {
+img:not(.flipped){
     transform: rotateY(0deg);
 }
 
-img {
+img{
     object-fit: cover;
 }
