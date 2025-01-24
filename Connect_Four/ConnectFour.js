@@ -1,129 +1,195 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const squares = document.querySelectorAll('.grid div')
-    const result = document.querySelector('#result')
-    const displayCurrentPlayer = document.querySelector('#current-player')
-    let currentPlayer = 1
-  
-    const winningArrays = [
-      [0, 1, 2, 3],
-      [41, 40, 39, 38],
-      [7, 8, 9, 10],
-      [34, 33, 32, 31],
-      [14, 15, 16, 17],
-      [27, 26, 25, 24],
-      [21, 22, 23, 24],
-      [20, 19, 18, 17],
-      [28, 29, 30, 31],
-      [13, 12, 11, 10],
-      [35, 36, 37, 38],
-      [6, 5, 4, 3],
-      [0, 7, 14, 21],
-      [41, 34, 27, 20],
-      [1, 8, 15, 22],
-      [40, 33, 26, 19],
-      [2, 9, 16, 23],
-      [39, 32, 25, 18],
-      [3, 10, 17, 24],
-      [38, 31, 24, 17],
-      [4, 11, 18, 25],
-      [37, 30, 23, 16],
-      [5, 12, 19, 26],
-      [36, 29, 22, 15],
-      [6, 13, 20, 27],
-      [35, 28, 21, 14],
-      [0, 8, 16, 24],
-      [41, 33, 25, 17],
-      [7, 15, 23, 31],
-      [34, 26, 18, 10],
-      [14, 22, 30, 38],
-      [27, 19, 11, 3],
-      [35, 29, 23, 17],
-      [6, 12, 18, 24],
-      [28, 22, 16, 10],
-      [13, 19, 25, 31],
-      [21, 15, 9, 3],
-      [20, 26, 32, 38],
-      [36, 30, 24, 18],
-      [5, 11, 17, 23],
-      [37, 31, 25, 19],
-      [4, 10, 16, 22],
-      [2, 10, 18, 26],
-      [39, 31, 23, 15],
-      [1, 9, 17, 25],
-      [40, 32, 24, 16],
-      [9, 17, 25, 33],
-      [8, 16, 24, 32],
-      [11, 17, 23, 29],
-      [12, 18, 24, 30],
-      [1, 2, 3, 4],
-      [5, 4, 3, 2],
-      [8, 9, 10, 11],
-      [12, 11, 10, 9],
-      [15, 16, 17, 18],
-      [19, 18, 17, 16],
-      [22, 23, 24, 25],
-      [26, 25, 24, 23],
-      [29, 30, 31, 32],
-      [33, 32, 31, 30],
-      [36, 37, 38, 39],
-      [40, 39, 38, 37],
-      [7, 14, 21, 28],
-      [8, 15, 22, 29],
-      [9, 16, 23, 30],
-      [10, 17, 24, 31],
-      [11, 18, 25, 32],
-      [12, 19, 26, 33],
-      [13, 20, 27, 34],
-    ]
-  
-    function checkBoard() {
-      for (let y = 0; y < winningArrays.length; y++) {
-        const square1 = squares[winningArrays[y][0]]
-        const square2 = squares[winningArrays[y][1]]
-        const square3 = squares[winningArrays[y][2]]
-        const square4 = squares[winningArrays[y][3]]
-  
-        //check those squares to see if they all have the class of player-one
-        if (
-          square1.classList.contains('player-one') &&
-          square2.classList.contains('player-one') &&
-          square3.classList.contains('player-one') &&
-          square4.classList.contains('player-one')
-        )
-        {
-          result.innerHTML = 'Player One Wins!'
-        }
-        //check those squares to see if they all have the class of player-two
-        if (
-          square1.classList.contains('player-two') &&
-          square2.classList.contains('player-two') &&
-          square3.classList.contains('player-two') &&
-          square4.classList.contains('player-two')
-        )
-        {
-          result.innerHTML = 'Player Two Wins!'
-        }
-      }
+const grid = document.querySelector('.grid');
+const currentPlayerDisplay = document.getElementById('current-player');
+const timerDisplay = document.getElementById('timer');
+const gameStatusDisplay = document.getElementById('game-status');
+let currentPlayer = 1;
+let gameActive = true;
+let timer;
+let timeLeft = 15;
+
+// Create the grid dynamically
+function createGrid() {
+  for (let i = 0; i < 42; i++) {
+    const slot = document.createElement('div');
+    slot.classList.add('slot');
+    slot.setAttribute('data-index', i);
+    grid.appendChild(slot);
+  }
+}
+
+const slots = [];
+
+// Start the game timer
+function startTimer() {
+  timerDisplay.textContent = `Time Left: ${timeLeft}s`;
+
+  timer = setInterval(() => {
+    if (timeLeft > 0) {
+      timeLeft--;
+      timerDisplay.textContent = `Time Left: ${timeLeft}s`;
+    } else {
+      clearInterval(timer);
+      switchPlayer();
+      timeLeft = 15;
+      startTimer();
     }
-  
-    for (let i = 0; i < squares.length; i++) {
-      squares[i].onclick = () => {
-        //if the square below your current square is taken, you can go ontop of it
-        if (squares[i + 7].classList.contains('taken') &&!squares[i].classList.contains('taken')) {
-          if (currentPlayer == 1) {
-            squares[i].classList.add('taken')
-            squares[i].classList.add('player-one')
-            currentPlayer = 2
-            displayCurrentPlayer.innerHTML = currentPlayer
-          } else if (currentPlayer == 2){
-            squares[i].classList.add('taken')
-            squares[i].classList.add('player-two')
-            currentPlayer = 1
-            displayCurrentPlayer.innerHTML = currentPlayer        
-          } 
-        } else alert('cant go here')
-        checkBoard()
-      }
+  }, 1000);
+}
+
+// Drop the token in the grid
+function dropToken(index, playerClass) {
+  let dropIndex = index;
+  while (
+    dropIndex + 7 < 42 &&
+    !slots[dropIndex + 7].classList.contains('player-one') &&
+    !slots[dropIndex + 7].classList.contains('player-two')
+  ) {
+    dropIndex += 7;
+  }
+  slots[dropIndex].classList.add(playerClass, 'falling');
+  setTimeout(() => {
+    slots[dropIndex].classList.remove('falling');
+  }, 500);
+  return dropIndex;
+}
+
+// Switch players
+function switchPlayer() {
+  if (!gameActive) return;
+
+  const playerClass = currentPlayer === 1 ? 'player-one' : 'player-two';
+  if (checkWin(playerClass)) {
+    clearInterval(timer);
+    gameActive = false;
+    gameStatusDisplay.textContent = `Player ${currentPlayer} Wins!`;
+    return;
+  }
+
+  currentPlayer = currentPlayer === 1 ? 2 : 1;
+  currentPlayerDisplay.textContent = currentPlayer;
+
+  if (currentPlayer === 2) {
+    setTimeout(() => {
+      aiMove();
+      switchPlayer();
+    }, 500);
+  }
+}
+
+// Check win condition
+function checkWin(playerClass) {
+  // Check horizontal, vertical, and diagonal directions
+  const winningCombos = [
+    // Horizontal
+    [0, 1, 2, 3],
+    [1, 2, 3, 4],
+    [2, 3, 4, 5],
+    [3, 4, 5, 6],
+    [7, 8, 9, 10],
+    [8, 9, 10, 11],
+    [9, 10, 11, 12],
+    [10, 11, 12, 13],
+    [14, 15, 16, 17],
+    [15, 16, 17, 18],
+    [16, 17, 18, 19],
+    [17, 18, 19, 20],
+    [21, 22, 23, 24],
+    [22, 23, 24, 25],
+    [23, 24, 25, 26],
+    [24, 25, 26, 27],
+    [28, 29, 30, 31],
+    [29, 30, 31, 32],
+    [30, 31, 32, 33],
+    [31, 32, 33, 34],
+    [35, 36, 37, 38],
+    [36, 37, 38, 39],
+    [37, 38, 39, 40],
+    [38, 39, 40, 41],
+    // Vertical
+    [0, 7, 14, 21],
+    [7, 14, 21, 28],
+    [14, 21, 28, 35],
+    [1, 8, 15, 22],
+    [8, 15, 22, 29],
+    [15, 22, 29, 36],
+    [2, 9, 16, 23],
+    [9, 16, 23, 30],
+    [16, 23, 30, 37],
+    [3, 10, 17, 24],
+    [10, 17, 24, 31],
+    [17, 24, 31, 38],
+    [4, 11, 18, 25],
+    [11, 18, 25, 32],
+    [18, 25, 32, 39],
+    [5, 12, 19, 26],
+    [12, 19, 26, 33],
+    [19, 26, 33, 40],
+    [6, 13, 20, 27],
+    [13, 20, 27, 34],
+    [20, 27, 34, 41],
+    // Diagonal (left-to-right)
+    [3, 9, 15, 21],
+    [4, 10, 16, 22],
+    [5, 11, 17, 23],
+    [10, 16, 22, 28],
+    [11, 17, 23, 29],
+    [12, 18, 24, 30],
+    [17, 23, 29, 35],
+    [18, 24, 30, 36],
+    [19, 25, 31, 37],
+    // Diagonal (right-to-left)
+    [6, 12, 18, 24],
+    [5, 11, 17, 23],
+    [4, 10, 16, 22],
+    [3, 9, 15, 21],
+    [10, 16, 22, 28],
+    [9, 15, 21, 27],
+    [8, 14, 20, 26],
+    [7, 13, 19, 25]
+  ];
+
+  return winningCombos.some(combo =>
+    combo.every(index => slots[index].classList.contains(playerClass))
+  );
+}
+
+// AI Logic
+function aiMove() {
+  const playerTwoClass = 'player-two';
+  const validMoves = [];
+  for (let i = 0; i < 42; i++) {
+    if (
+      !slots[i].classList.contains('player-one') &&
+      !slots[i].classList.contains('player-two')
+    ) {
+      validMoves.push(i);
     }
-    
-})
+  }
+  const randomMove = validMoves[Math.floor(Math.random() * validMoves.length)];
+  dropToken(randomMove, playerTwoClass);
+}
+
+// Attach event listeners
+function setupEventListeners() {
+  slots.forEach((slot, index) => {
+    slot.addEventListener('click', () => {
+      if (
+        !gameActive ||
+        slot.classList.contains('player-one') ||
+        slot.classList.contains('player-two')
+      )
+        return;
+
+      dropToken(index, currentPlayer === 1 ? 'player-one' : 'player-two');
+      timeLeft = 15; // Reset timer
+      switchPlayer();
+    });
+  });
+}
+
+// Start the game
+createGrid();
+const slotElements = document.querySelectorAll('.slot');
+slotElements.forEach(slot => slots.push(slot));
+setupEventListeners();
+startTimer();

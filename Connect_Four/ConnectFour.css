@@ -1,22 +1,74 @@
-.grid{
-    border: 1px solid;
-    height: 120px;
-    width: 140px;
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.grid div{
-    height: 20px;
-    width: 20px;
-}
+/* General Reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
   
-.player-one{
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 50px;
+  }
+  
+  h1 {
+    font-size: 36px;
+  }
+  
+  h3 {
+    margin: 10px;
+  }
+  
+  #timer {
+    margin-top: 10px;
+    font-size: 18px;
+  }
+  
+  .game-board {
+    margin: 20px auto;
+    width: 420px; /* 7 columns x 60px */
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(7, 60px); /* 7 columns */
+    grid-template-rows: repeat(6, 60px); /* 6 rows */
+    gap: 5px;
+  }
+  
+  .slot {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.3s ease;
+  }
+  
+  .slot.player-one {
     background-color: red;
-    border-radius: 10px;
-}
+  }
   
-.player-two{
+  .slot.player-two {
     background-color: blue;
-    border-radius: 10px;
-}
+  }
+  
+  .slot.taken {
+    pointer-events: none;
+  }
+  
+  .slot.falling {
+    animation: fall 0.5s ease-out;
+  }
+  
+  @keyframes fall {
+    from {
+      transform: translateY(-100px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
